@@ -6,6 +6,7 @@
 	<title>Quick Pin GPS</title>
 	<link rel="manifest" href="manifest.json" />
 	<meta name="theme-color" content="#3498db" />
+	<link rel="icon" type="image/x-icon" href="favicon.ico" />
 	<style>
 		body {
 			margin: 0;
@@ -237,7 +238,7 @@
 					loadVersion()
 
 					if ('serviceWorker' in navigator) {
-						navigator.serviceWorker.register('/service-worker.js')
+						navigator.serviceWorker.register('service-worker.js')
 							.then(() => console.log('Service Worker enregistré'))
 							.catch(err => console.error('Erreur enregistrement SW:', err))
 					}
