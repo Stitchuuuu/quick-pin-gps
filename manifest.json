@@ -1,6 +1,6 @@
 {
-	"name": "Enregistreur GPS",
-	"short_name": "GPS",
+	"name": "Quick Pin GPS",
+	"short_name": "Quick Pin GPS",
 	"start_url": ".",
 	"display": "standalone",
 	"background_color": "#3498db",

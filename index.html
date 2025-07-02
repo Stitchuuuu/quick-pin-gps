@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Enregistreur GPS Vue Inline</title>
+	<title>Quick Pin GPS</title>
 	<link rel="manifest" href="manifest.json" />
 	<meta name="theme-color" content="#3498db" />
 	<style>
@@ -79,10 +79,14 @@
 			font-size: 0.8rem;
 			z-index: 9999;
 		}
-		@media (max-width: 400px) {
+		@media only screen and (max-width: 767px) {
 			button.big-button {
 				font-size: 1.2rem;
 				padding: 15px 20px;
+			}
+			button.big-button.save {
+				height: 30vh;
+				font-size: 2rem;
 			}
 			h1 {
 				font-size: 1.4rem;
@@ -129,8 +133,8 @@
 <body>
 	<div id="app">
 		<h1>📍 Enregistreur de positions GPS</h1>
-		<button @click="saveLocation" class="big-button">
-			📍 Enregistrer ma localisation
+		<button @click="saveLocation" class="big-button save">
+			Enregistrer ma localisation
 		</button>
 		<button @click="downloadPositions" class="big-button">
 			📥 Télécharger les positions (.json)
@@ -143,7 +147,7 @@
 		<div v-else class="positions-list">
 			<strong>Positions enregistrées :</strong>
 			<ul>
-				<li v-for="(pos, i) in positions" :key="i">
+				<li v-for="(pos, i) in positionsSorted" :key="i">
 					#{{ i + 1 }} — Lat: {{ pos.latitude.toFixed(6) }}, Lng: {{ pos.longitude.toFixed(6) }}<br />
 					{{ new Date(pos.timestamp).toLocaleString() }}<br />
 					<a :href="appleMapsUrl(pos)" target="_blank" rel="noopener">🗺️ Ouvrir dans Apple Plans</a>
@@ -159,17 +163,21 @@
 	<!-- Vue 3 CDN -->
 	<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 	<script>
-		const { createApp, ref, onMounted } = Vue
+		const { createApp, ref, onMounted, computed, reactive, watch } = Vue
 
 		createApp({
 			setup() {
 				const STORAGE_KEY = 'positionsGPS'
 				const positions = ref([])
 				const version = ref('')
-
+				const positionsSorted = computed(() => {
+					return positions.value.sort((p1, p2) => p2.timestamp - p1.timestamp)
+				})
+				
 				function loadPositions() {
 					const raw = localStorage.getItem(STORAGE_KEY)
-					positions.value = raw ? JSON.parse(raw) : []
+					positions.value.splice(0)
+					positions.value.push(...(raw ? JSON.parse(raw) : []))
 				}
 
 				function savePositions() {
@@ -241,6 +249,7 @@
 					saveLocation,
 					downloadPositions,
 					appleMapsUrl,
+					positionsSorted,
 				}
 			},
 		}).mount('#app')
