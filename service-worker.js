@@ -1,12 +1,12 @@
 const CACHE_NAME = 'gps-app-cache-v1'
 const FILES_TO_CACHE = [
-	'/',
-	'/index.html',
-	'/manifest.json',
-	'/version.txt',
-	'/favicon.ico',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
+	'./',
+	'./index.html',
+	'./manifest.json',
+	'./version.txt',
+	'./favicon.ico',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
 	// ajoute ici d'autres fichiers si besoin (icônes, styles, scripts externes)
 ]
 
